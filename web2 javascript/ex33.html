@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title> web2 - javaScript ex33</title>
+
+	<script>
+
+	//use html:5 + tab : to create html file automatically
+
+		//set function
+		function nightDayHandler(self){
+			var target = document.querySelector('body');	//get the body tag
+			if(self.value === 'day'){	//change to night '==' is also available but...
+				Body.setBackgroundColor('black');;	//set body tag's attributes
+				Body.setColor('white');
+				self.value = 'night';
+
+				Links.setColor('powderblue');
+
+			}else{	//if this.value === 'night'
+				Body.setBackgroundColor('white');
+				Body.setColor('black');
+				self.value = 'day';
+
+				Links.setColor('orange');
+			}
+		}
+
+		//객체는 비슷한 기능을 하는 메소드들을 기능적으로 묶어놓은 집합체라고 생각할 수 있다
+		//set Object, set method, Object as a group of similar methods 
+		var Body = {
+			setColor : function(color){
+				document.querySelector('body').style.color = color;
+			},	//object 의 property 사이는 , 로 구분해준다 
+			setBackgroundColor : function(color){
+				document.querySelector('body').style.backgroundColor = color;
+			}
+		}
+
+		var Links = {
+			setColor : function(color){	//parameter : argument as an input  
+				var alist = document.querySelectorAll('a');
+				var i = 0;
+				while(i < alist.length){
+					alist[i].style.color = color;
+					i++;
+				}
+			}
+		}
+
+	</script>
+</head>
+
+<body>
+	<h1><a href="index.html" style = "color : orange">WEB</a></h1>
+
+	<input id = day_night type = "button" value = "day" onclick="
+		nightDayHandler(this);
+	">
+	
+	<ol>	<!-- ordered list -->
+		<li><a href="1.html" style = "color : orange">HTML</a></li>
+		<li><a href="2.html" style = "color : orange">CSS</a></li>
+		<li><a href="3.html" style = "color : orange">JavaScript</a></li>
+
+		<!-- 아래 코드는 li에 색을 지정하여 1.2.3. 번호들의 색깔을 바꾼다
+		<li style = "color : orange"><a href="2.html">CSS</a></li>
+		<li style = "color : #92B3B7"><a href="3.html">JavaScript</a></li> 
+		-->
+
+	</ol>
+
+	<h2>JavaScript</h2>
+	<p>this is an exercise !!! please do not have fun....</p>
+
+</body>
+</html>

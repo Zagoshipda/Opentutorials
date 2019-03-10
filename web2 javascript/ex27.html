@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>function --- return</title>
+</head>
+<body>
+	
+	<h2>sumColorRed</h2>
+	<script>
+
+		sumColorRed(2,3);
+		function sumColorRed(left, right){
+			document.write('<div style = "color: red">'+left+right+'</div><br>');	//23
+
+			document.write(typeof('<div style = "color: red">'+left+right+'</div><br>'));	//string
+			document.write('<div style = "color: red">'+(left+right)+'</div><br>');	//5
+
+			document.write(typeof('<div style = "color: red">'+(left+right)+'</div><br>'));	//string
+			document.write('<div style = "color: red">'+typeof(left+right)+'</div><br>');	//number
+
+			document.write('<div style = "color: red">'+typeof(left+right+'</div><br>'));	//string
+			document.write('<div style = "color: red">', left, right, '</div><br>');	//23
+
+			document.write('<div style = "color: red">', left+right, '</div><br>');	//5
+			document.write('<div style = "color: red">', (left+right), '</div><br>');	//5
+
+		}
+		
+		document.writeln("흐음");
+
+		document.write('<div style = "color: red">'+2+'</div><br>');
+		document.write('<div style = "color: red">'+2+3+4+'</div><br>');	//234
+		document.write('<div style = "color: red">'+(2+3+4)+'</div><br>');	//9
+
+		document.write("태그실험<br>");
+		function sum(left, right){
+			document.write(left+right+'<br>');	//5
+			document.write('<br>'+left+right);	//23
+			document.write('<br>'+(left+right));	//5
+			document.write('<br>'+left+right+'<br>');	//23
+		}
+		sum(2,3);
+
+	// 그것은 document.write( ); 안쪽에 들어있는 요소들의 자료형 때문입니다. 
+	// 우선 javaScript 는 숫자+숫자 = 숫자/ string+string=string 입니다. 
+	// 그렇다면 숫자+string 은 뭐가 될까요. 정답은 string입니다. 즉 숫자+string = string 입니다. 
+	// 예를 들어 1+'1' = "11" 이 됩니다. string을 숫자보다 우선하는 자료형으로 인식한다고 보시면 됩니다. 
+	// 이제 다시 sumColorRed 함수를 보면 현재 함수 내부는 '<div ... >' + left + right + '</div ...>' 인데요 여기서 left + right 앞뒤로 위치하고 있는 '<div ... >' 와 '</div ...> 가 string 자료형이기 때문에 left와 right 가 숫자이더라도 string으로 바꾸어 인식하여 결과값이 5 가 아닌 2와 3이 서로 붙어 있는 23으로 나오게 됩니다. 
+	// 다만 '<div ... >' + (left + right) + '</div ...>'와 같이 (left+right)의 덧셈을 괄호를 해주는 경우 숫자의 계산이 먼저 이루어져 5라는 값이 발생한 후 string과의 덧셈이 이루어지므로 올바른 결과인 5가 나오는 것을 확인할 수 있습니다. 
+	// 보다 쉽게 이해하기 위해서 괄호를 하지 않는 경우는 document.write('<div style = "color: red">', left, right, '</div><br>');인 것으로,
+	// 괄호를 하는 경우는 document.write('<div style = "color: red">', (left+right), '</div><br>');인 것으로 인식한다고 생각하면 될 것 같습니다. 
+
+	// document.write()와 관련된 내용은 아래 링크에서 확인하실 수 있습니다. 
+	// https://developer.mozilla.org/ko/docs/Web/API/Document/write﻿
+
+	</script>
+
+</body>
+</html>

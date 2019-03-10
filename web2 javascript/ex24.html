@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title> web1 - javaScript </title>
+
+	<script>
+		//set function
+		function nightDayHandler(self){
+			var target = document.querySelector('body');	//get the body tag
+			if(self.value === 'day'){	//change to night '==' is also available but...
+				target.style.backgroundColor = 'black';	//set body tag's attributes
+				target.style.color = 'white';
+				self.value = 'night';
+
+				var alist = document.querySelectorAll('li');
+				var i = 0;
+				while(i < alist.length){
+					alist[i].style.color = 'powderblue';
+					i++;
+				}
+
+			}else{	//if this.value === 'night'
+				target.style.backgroundColor = 'white';
+				target.style.color = 'black';
+				self.value = 'day';
+
+				var alist = document.querySelectorAll('li');
+				var i = 0;
+				while(i < alist.length){
+					alist[i].style.color = 'orange';
+					i++;
+				}
+			}
+		}
+
+	</script>
+</head>
+<body>
+	<h1>WEB</h1>
+
+	<input id = day_night type = "button" value = "day" onclick="
+		nightDayHandler(this);
+	">
+	<input id = day_night type = "button" value = "day" onclick="
+		nightDayHandler(this);
+	">
+	<input id = day_night type = "button" value = "day" onclick="
+		nightDayHandler(this);
+	">
+	
+	<ol>
+		<li style = "color : orange">HTML</li>
+		<li style = "color : orange">CSS</li>
+		<li style = "color : orange">JavaScript</li>
+		<li style = "color : #92B3B7">Spring</li>
+
+	</ol>
+
+	<h2>JavaScript</h2>
+	<p>this is an exercise !!! please do not have fun....</p>
+
+</body>
+</html>
