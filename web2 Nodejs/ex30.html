@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <!-- <form class="" action="http://localhost:3000/process_create"> method 가 생략인 경우는 get 인 것과 같다 (단순히 데이터를 가져오는 경우)-->
+  <form class="" action="http://localhost:3000/process_create" method="post">
+    <!-- 서버의 데이터를 생성 수정 삭제와 같은 작업을 하는 경우  mothod = post 라고 하여 query string 을 노출하지 않고 즉 필요한 데이터를 url에 노출하지 않는다  -->
+
+    <p><input type="text" name="title" value=""></p>
+
+    <p><textarea name="description" rows="8" cols="50"></textarea></p>
+
+    <p><input type="submit" name="" value="submit"></p>
+
+  </form>
+
+
+</body>
+</html>
