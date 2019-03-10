@@ -1,0 +1,25 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+  body
+    h1
+      //- a(href='topc') 으로 / 를 붙이지 않으면 url 뒤에 topic이 하나 더 붙어서 localhost:3000/topic/topic 의 url로 접속이된다.
+      //- 그리고 현재 url 방식을 따르면 topic/:id 에서 id 값이 없는 경우 모두 home url로 연결되므로 topic/banana 등 topic/ 뒤의 세부 url값으로 어떠한 문자String을 입력하더라도 모두 home url로 연결된다.
+      a(href='/topic') Server Side JavaScript
+    ul
+      each topic in topics
+        li
+          a(href='/topic/'+topic.id)= topic.title
+    artcle
+      if topic
+        h2= topic.title
+        = topic.description
+        div= 'by ' + topic.author
+      else
+        h2 Welcome
+        //- '|' 기호는 그냥 문자열을 입력하는 경우 사용함
+        | This is server side javascript tutorial.
+        div= 'by Zagoshipda'
+    div
+      a(href='/topic/add') add

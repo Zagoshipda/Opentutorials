@@ -1,0 +1,30 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+  body
+    h1
+      a(href='/topic') Server Side JavaScript
+    //- each iteration syntax 를 통해 동적으로 글 목록 생성하고 출력하기
+    ul
+      each topic in topics
+        li
+          a(href='/topic/'+topic)= topic
+
+    artcle
+      h2= title
+      = description
+    div
+      a(href='/topic/new') new 
+
+//
+  주석은 이렇게 계층구조를 이용해서 block 단위로 간편하게 달 수 도 있다.
+    위 iteration 은 다음과 같은 list를 프로그래밍적으로 생성하는 역할을 담당한다.
+      li
+        a(href='/topic/'a)= a
+      li
+        a(href='/topic/'javascript)= javascript
+      li
+        a(href='/topic/'nodejs)= nodejs
+
+//이건 새로운 block이므로 주석이 하나 더 생긴다.. tab간격을 잘 맞추자... tab간격을....!!

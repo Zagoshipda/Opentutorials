@@ -1,0 +1,22 @@
+doctype html
+html
+  head
+    //comments in jade : Single line comments look the same as JavaScript comments and must be placed on their own line:
+    //-utf-8인코딩 : Jade also supports unbuffered comments, by simply adding a hyphen: 이건 html로 안바뀜
+    meta(charset='utf-8')
+  body
+    //- 사용자가 작성한 정보를 어디로 전송할 것인지는 action 태그를 통해 url을 지정할 수 있다. 전송방식은 method 태그를 통해 GET(=default)/POST 방식을 선택할 수 있음
+    h1
+      a(href='/topic') Server Side JavaScript
+    ul
+      each topic in topics
+        li
+          a(href='/topic/'+topic)= topic
+    artcle
+      form(action='/topic' method='post')
+        p
+          input(type='text' name='title' placeholder='title')
+        p
+          textarea(name='description' placeholder='description')
+        p
+          input(type='submit')

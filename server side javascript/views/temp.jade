@@ -1,0 +1,14 @@
+html
+  head
+    title= _title
+    //title = _title 처럼 = 는 변수로 지정할 값에 바로 붙여서 사용해야 함
+  body
+  h1
+    Hello Jade
+    //이렇게만 하면 Hello가 태그가 되어 <hello> Jade </hello>처럼 된다.
+    //- hyphen을 추가하면 주석이 html로 인코딩되지 않는다 (이건 html 코드로는 보이지 않음)
+  h1 Hello Jade
+  ul
+    -for(var i=0; i<5; i++)
+      li coding
+  div= time

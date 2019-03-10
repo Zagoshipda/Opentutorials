@@ -1,0 +1,18 @@
+{
+  "name": "server_side_javascript",
+  "version": "1.0.0",
+  "description": "Server side javascript tutorials",
+  "main": "ex4.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "jade": "^1.11.0",
+    "node-mysql": "^0.4.2",
+    "underscore": "^1.9.1"
+  }
+}
