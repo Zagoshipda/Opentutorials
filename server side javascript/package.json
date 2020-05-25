@@ -9,10 +9,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.18.3",
-    "express": "^4.16.4",
+    "body-parser": "^1.19.0",
+    "constantinople": "^4.0.1",
+    "cookie-parser": "^1.4.5",
+    "express": "^4.17.1",
     "jade": "^1.11.0",
     "node-mysql": "^0.4.2",
-    "underscore": "^1.9.1"
+    "underscore": "^1.10.2"
   }
 }
