@@ -8,6 +8,7 @@ var sha256 = require('sha256');
 var pbkfd2Password = require("pbkdf2-password");
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var { expressCspHeader, NONE, SELF } = require('express-csp-header');
 
 var hasher = pbkfd2Password();
 
@@ -29,6 +30,12 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(expressCspHeader({
+  directives: {
+    'default-src': [NONE],
+    'img-src': [SELF]
+  }
+}));
 
 // session data is stored in memory by default so that it could be removed.
 app.get('/count', function(req, res){
@@ -46,14 +53,16 @@ app.get('/tmp', function(req, res){
 });
 
 app.get('/auth/logout', function(req, res){
-  delete req.session.displayName;
+  // delete req.session.displayName;
+  req.logout();
   req.session.save(function(){
     res.redirect('/welcome');  // logout by callback.
   });
 });
 
 app.get('/welcome', function(req, res){
-  res.send('welcome :', req.session, req.user);
+  console.log('welcome :', req.session, ' / ', req.user);
+  // req.user property made from done(null, user) inside deserializeUser().
   if(req.user && req.user.displayName){
     res.send(`
       <h1>Hello, ${req.user.displayName}</h1>
@@ -107,10 +116,12 @@ app.post('/auth/register', function(req, res){
       salt: salt,
       displayName: req.body.displayName
     };
-    users.push(user);
-    req.session.displayName = req.body.displayname;
-    req.session.save(function(){
-      res.redirect('/welcome');
+    users.push(user); // add to database.
+    // req.session.displayName = req.body.displayName; // login.
+    req.login(user, function(err){
+      req.session.save(function(){
+        res.redirect('/welcome');
+      });
     });
   });
 });
@@ -168,19 +179,19 @@ passport.use(new LocalStrategy(
         return hasher({password:pwd, salt:user.salt}, function(err, pass, salt, hash){
           if(hash === user.password){
             console.log('LocalStrategy :', user);
-            done(null, user); // done(err, result, message)
+            return done(null, user); // done(err, result, message)
             // req.session.displayName = user.displayName;
             // req.session.save(function(){
             //   res.redirect('/welcome');
             // });
           }else {
-            done(null, false);
+            return done(null, false);
             // res.send(output + '<br>Who\nare you? <a href="/auth/login">go back to Login</a>');
           }
         });
       }
     }
-    done(null, false);
+    return done(null, false);
     // res.send(output + '<br>Who\nare you? <a href="/auth/login">go back to Login</a>');
   }
 ));
