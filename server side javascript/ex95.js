@@ -108,7 +108,7 @@ app.post('/auth/register', function(req, res){
       displayName: req.body.displayName
     };
     users.push(user);
-    req.session.displayName = req.body.displayname;
+    req.session.displayName = req.body.displayName;
     req.session.save(function(){
       res.redirect('/welcome');
     });

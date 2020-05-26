@@ -6,6 +6,9 @@ var bodyParser = require('body-parser');
 var md5 = require('md5');
 var sha256 = require('sha256');
 var pbkfd2Password = require("pbkdf2-password");
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+
 var hasher = pbkfd2Password();
 
 var mysqlOptions = {
@@ -14,7 +17,7 @@ var mysqlOptions = {
   user: 'root',
   password: '1111',
   database: 'o2'
-}
+};
 
 var app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -24,6 +27,8 @@ app.use(session({
   saveUninitialized: true,
   store: new MySQLStore(mysqlOptions)
 }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 // session data is stored in memory by default so that it could be removed.
 app.get('/count', function(req, res){
@@ -48,10 +53,10 @@ app.get('/auth/logout', function(req, res){
 });
 
 app.get('/welcome', function(req, res){
-  // res.send(req.session);
-  if(req.session.displayName){
+  res.send('welcome :', req.session, req.user);
+  if(req.user && req.user.displayName){
     res.send(`
-      <h1>Hello, ${req.session.displayName}</h1>
+      <h1>Hello, ${req.user.displayName}</h1>
       <p>
         <a href="/welcome">HOME</a>
       </p>
@@ -103,7 +108,7 @@ app.post('/auth/register', function(req, res){
       displayName: req.body.displayName
     };
     users.push(user);
-    req.session.displayName = req.body.displayName;
+    req.session.displayName = req.body.displayname;
     req.session.save(function(){
       res.redirect('/welcome');
     });
@@ -132,34 +137,65 @@ app.get('/auth/register', function(req, res){
   res.send(output);
 });
 
-app.post('/auth/login', function(req, res){
-  var uname = req.body.username;
-  var pwd = req.body.password;
-  var output = uname + ' ' + pwd;
+// serialize & deserialize data for a session.
+// from now on, do NOT control session directly, but by using a passport.
+passport.serializeUser(function(user, done){
+  console.log('serializeUser :', user);
+  done(null, user.username);  // username as an id.
+});
+
+passport.deserializeUser(function(id, done){
+  console.log('deserializeUser : ', id);
   for(var i=0; i<users.length; ++i){
     var user = users[i];
-    if(uname === user.username){
-      return hasher({password:pwd, salt:user.salt}, function(err, pass, salt, hash){
-        if(hash === user.password){
-          req.session.displayName = user.displayName;
-          req.session.save(function(){
-            res.redirect('/welcome');
-          });
-        }else {
-          res.send(output + '<br>Who\nare you? <a href="/auth/login">go back to Login</a>');
-        }
-      });
+    if(user.username === id){
+      return done(null, user);
     }
-    // if(uname === user.username && sha256(pwd + user.salt) === user.password){
-    //   req.session.displayName = user.displayName;
-    //   // TODO: why return? -> to finish the function, NOT to execute outside the iteration.
-    //   return req.session.save(function(){
-    //     res.redirect('/welcome'); // go back to main page by callback.
-    //   });
-    // }
   }
-  res.send(output + '<br>Who\nare you? <a href="/auth/login">go back to Login</a>');
+  // User.findById(id, function(err, user){
+  //   done(err, user);
+  // });
 });
+
+passport.use(new LocalStrategy(
+  function(username, password, done){
+    var uname = username;
+    var pwd = password;
+    var output = uname + ' ' + pwd;
+    for(var i=0; i<users.length; ++i){
+      var user = users[i];
+      if(uname === user.username){
+        return hasher({password:pwd, salt:user.salt}, function(err, pass, salt, hash){
+          if(hash === user.password){
+            console.log('LocalStrategy :', user);
+            done(null, user); // done(err, result, message)
+            // req.session.displayName = user.displayName;
+            // req.session.save(function(){
+            //   res.redirect('/welcome');
+            // });
+          }else {
+            done(null, false);
+            // res.send(output + '<br>Who\nare you? <a href="/auth/login">go back to Login</a>');
+          }
+        });
+      }
+    }
+    done(null, false);
+    // res.send(output + '<br>Who\nare you? <a href="/auth/login">go back to Login</a>');
+  }
+));
+
+app.post(
+  '/auth/login',
+  passport.authenticate(
+    'local',  // use LocalStrategy
+    {
+      successRefirect: '/welcome',
+      failureRedirect: '/auth/login',
+      failureFlash: false
+    }
+  )
+);
 
 app.get('/auth/login', function(req, res){
   var output = `
