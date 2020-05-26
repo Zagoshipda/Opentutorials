@@ -1,2 +1,3 @@
-node_modules
-.hwp
+node_modules/
+sessions/
+*.hwp

@@ -16,6 +16,7 @@
     "express-session": "^1.17.1",
     "jade": "^1.11.0",
     "node-mysql": "^0.4.2",
+    "session-file-store": "^1.4.0",
     "supervisor": "^0.12.0",
     "underscore": "^1.10.2"
   }
