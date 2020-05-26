@@ -19,6 +19,7 @@
     "md5": "^2.2.1",
     "minimist": "^1.2.5",
     "node-mysql": "^0.4.2",
+    "pbkdf2-password": "^1.2.1",
     "session-file-store": "^1.4.0",
     "sha256": "^0.2.0",
     "supervisor": "^0.12.0",
