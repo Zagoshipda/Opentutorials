@@ -16,6 +16,7 @@
     "express-mysql-session": "^2.1.4",
     "express-session": "^1.17.1",
     "jade": "^1.11.0",
+    "md5": "^2.2.1",
     "minimist": "^1.2.5",
     "node-mysql": "^0.4.2",
     "session-file-store": "^1.4.0",
