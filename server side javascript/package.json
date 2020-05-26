@@ -13,11 +13,16 @@
     "constantinople": "^4.0.1",
     "cookie-parser": "^1.4.5",
     "express": "^4.17.1",
+    "express-mysql-session": "^2.1.4",
     "express-session": "^1.17.1",
     "jade": "^1.11.0",
+    "minimist": "^1.2.5",
     "node-mysql": "^0.4.2",
     "session-file-store": "^1.4.0",
     "supervisor": "^0.12.0",
     "underscore": "^1.10.2"
+  },
+  "devDependencies": {
+    "clean-css": "^4.2.3"
   }
 }
