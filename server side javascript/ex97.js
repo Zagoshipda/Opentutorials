@@ -26,7 +26,8 @@ app.use(session({
   secret: '12343452524',
   resave: false,
   saveUninitialized: true,
-  store: new MySQLStore(mysqlOptions)
+  store: new MySQLStore(mysqlOptions),
+  cookie: { maxAge : 10000 }  // cookie expire time im ms.
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -150,17 +151,19 @@ app.get('/auth/register', function(req, res){
 
 // serialize & deserialize data for a session.
 // from now on, do NOT control session directly, but by using a passport.
+// user parameter from done(null, user) inside the LocalStrategy().
 passport.serializeUser(function(user, done){
   console.log('serializeUser :', user);
-  done(null, user.username);  // username as an id.
+  done(null, user.username);  // username as an id, store in the session.
 });
 
+// id from the session, user.username stored from serializeUser().
 passport.deserializeUser(function(id, done){
   console.log('deserializeUser : ', id);
   for(var i=0; i<users.length; ++i){
     var user = users[i];
     if(user.username === id){
-      return done(null, user);
+      return done(null, user);  // Add user property to req object.
     }
   }
   // User.findById(id, function(err, user){
@@ -172,7 +175,7 @@ passport.use(new LocalStrategy(
   function(username, password, done){
     var uname = username;
     var pwd = password;
-    var output = uname + ' ' + pwd;
+    // var output = uname + ' ' + pwd;
     for(var i=0; i<users.length; ++i){
       var user = users[i];
       if(uname === user.username){
