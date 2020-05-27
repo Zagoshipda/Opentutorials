@@ -2,7 +2,7 @@ var express = require('express');
 var session = require('express-session');
 var app = express();
 app.use(session({
-  secret: '12343452524',
+  secret: '12343452524',  // used when storing session-id on web browser.
   resave: false,
   saveUninitialized: true
 }));
