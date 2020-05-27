@@ -168,7 +168,7 @@ passport.use(new LocalStrategy(
 app.post('/auth/login', passport.authenticate(
   'local',
    {
-     successRefirect: '/welcome',
+     successRedirect: '/welcome',
      failureRedirect: '/auth/login',
      failureFlash: false
    }
