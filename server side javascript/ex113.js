@@ -1,3 +1,4 @@
+/*jshint esversion: 6 */
 var express = require('express');
 var session = require('express-session');
 // var FileStore = require('session-file-store')(session);
@@ -71,7 +72,7 @@ app.get('/auth/logout', function(req, res){
 app.get('/welcome', function(req, res){
   console.log('welcome :', req.session, ' / ', req.user);
   var fmsg = req.flash();
-  console.log(fmsg);
+  console.log('flash message :', fmsg);
   var feedback = '';
   if(fmsg.success){
     feedback = fmsg.success[0];
@@ -79,7 +80,9 @@ app.get('/welcome', function(req, res){
   // req.user property made from done(null, user) inside deserializeUser().
   if(req.user && req.user.displayName){
     res.send(`
-      <h2 style="color:blue">${feedback}</h2>
+      <h2>
+        <font color="lightgreen">${feedback}</font>
+      </h2>
       <h1>Hello, ${req.user.displayName}</h1>
       <p>
         <a href="/welcome">HOME</a>
@@ -144,6 +147,7 @@ app.post('/auth/register', function(req, res){
         res.status(500);  // 500 : internal server error.
       }else {
         req.login(user, function(err){
+          req.flash('success', 'NEW local user registered...!');
           req.session.save(function(){
             res.redirect('/welcome');
           });
@@ -227,7 +231,7 @@ passport.use(new LocalStrategy(
           // done(err, result, message)
           return done(null, user, { message: 'Login Success...!' });  // Pass user to serializeUser().
         }else {
-          return done(null, false);
+          return done(null, false, { message: 'Password wrong...!' });
         }
       });
     });
@@ -270,7 +274,7 @@ passport.use(new FacebookStrategy(
         return done('Error during searching a facebook account');
       }
       if(results.length > 0){
-        done(null, results[0]); // pass user value to serializeUser().
+        done(null, results[0], { message: 'Facebook login Success...!' }); // pass user value to serializeUser().
       }
       else {
         var sql = 'INSERT INTO users SET ?';
@@ -285,7 +289,7 @@ passport.use(new FacebookStrategy(
             done('Error during creating a new facebook account');
           }
           else {
-            done(null, newuser); // pass user value to serializeUser().
+            done(null, newuser, { message: 'New facebook login Success...!' }); // pass user value to serializeUser().
           }
         });
       }
@@ -334,7 +338,9 @@ app.get(
     'facebook',
     {
       successRedirect: '/welcome',
-      failureRedirect: '/auth/login'
+      failureRedirect: '/auth/login',
+      successFlash: true,
+      failureFlash: true
     }
   )
 );
@@ -359,7 +365,9 @@ app.get('/auth/login', function(req, res){
       <input type="submit">
     </p>
   </form>
-  <h2 style="color:red">${feedback}</h2>
+  <h2>
+    <font color="red">${feedback}</font>
+  </h2>
   <p>
     <h2>
       <a href="/auth/facebook">Facebook Login</a>
