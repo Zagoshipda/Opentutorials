@@ -1,0 +1,17 @@
+h1 Login
+form(action='/auth/login', method='post')
+  p
+    input(type='text', name='username', placeholder='username')
+  p
+    input(type='password', name='password', placeholder='password')
+  p
+    input(type='submit')
+h2
+  font(color='red') #{feedback}
+p
+h2
+  a(href='/auth/facebook') Facebook Login
+p
+p
+  | go to 
+  a(href='/welcome') HOME
