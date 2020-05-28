@@ -6,11 +6,11 @@ app.set('views', 'jade');       // template files.
 
 // routes.
 app.get('/view', function(req,res){
-  res.render('view1');
+  res.render('view2');
 });
 
 app.get('/add', function(req, res){
-  res.render('add1');
+  res.render('add2');
 });
 
 app.listen(3003, function(){
