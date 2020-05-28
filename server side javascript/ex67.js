@@ -26,7 +26,7 @@ var mysql = require('mysql');
 var conn = mysql.createConnection({ //conn 변수 -> MySQL connection control
   host     : 'localhost',
   user     : 'root',
-  password : '022635',
+  password : '1111',  // 022635
   database : 'o2'
 });
 conn.connect();
@@ -70,6 +70,28 @@ app.post('/topic/add', function(req, res){
       res.redirect('/topic/'+result.insertId);  //redirection, (rows->)result 변수가 가지고 있는 객체의 여러 값들 중 insertId 는 MySQL data table 에 추가된 id값을 가지고 있으므로 이를 활용해서 사용자에게 redirect할 url을 특정할 수 있다.
     }
   });
+});
+
+app.get(['/topic/:id/edit'], function(req, res){
+  var sql = 'SELECT id, title FROM topic';
+  conn.query(sql, function(err, topics, fields){  //rows -> topics
+    var id = req.params.id;
+    if(id){
+      var sql = 'SELECT * FROM topic WHERE id=?';
+      conn.query(sql, [id], function(err, topic, fields){
+        if(err){
+          console.log(err);
+          res.status(500).send('Internal Server Error');
+        }else{
+          //현재 선택한 topic에 대한 세부정보를 topic 변수로 전달.
+          res.render('edit', {topics:topics, topic:topic[0]});
+        }
+      });
+    }else{
+      console.log('There is NO id.');
+      res.status(500).send('Internal Server Error');
+    }
+  }); //end of query
 });
 
 app.get(['/topic', '/topic/:id'], function(req, res){
