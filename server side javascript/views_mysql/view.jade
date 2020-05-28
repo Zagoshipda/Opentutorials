@@ -11,7 +11,7 @@ html
       each topic in topics
         li
           a(href='/topic/'+topic.id)= topic.title
-    artcle
+    article
       if topic
         h2= topic.title
         = topic.description

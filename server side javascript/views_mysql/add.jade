@@ -9,7 +9,7 @@ html
       each topic in topics
         li
           a(href='/topic/'+topic.id)= topic.title
-    artcle
+    article
       form(action='/topic/add' method='post')
         p
           input(type='text' name='title' placeholder='title')
