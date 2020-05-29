@@ -1,0 +1,10 @@
+extends ../layout
+block content
+  article
+    h2= 'Delete...? : ' + topic.title
+    //- 삭제 기능은 post 방식으로 구현해야 함.
+    //- a(href='/topic/' + topic.id + '/delete') yes
+    form(action='/topic/' + topic.id + '/delete' method='post')
+      p
+        input(type='submit' value='YES')
+    a(href='/topic/' + topic.id) no

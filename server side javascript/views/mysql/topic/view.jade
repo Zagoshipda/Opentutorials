@@ -1,0 +1,19 @@
+extends ../layout
+block content
+  article
+    if topic
+      h2= topic.title
+      = topic.description
+      div= 'by ' + topic.author
+    else
+      h2 Welcome
+      | This is server side javascript tutorial.
+      div= 'by Zagoshipda'
+  ul
+    li
+      a(href='/topic/add') add
+    if topic
+      li
+        a(href='/topic/' + topic.id + '/edit') edit
+      li
+        a(href='/topic/' + topic.id + '/delete') delete
