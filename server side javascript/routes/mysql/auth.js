@@ -47,7 +47,10 @@ module.exports = function(passport){
     if(fmsg.error){
       feedback = fmsg.error[0];
     }
-    res.render('auth/login', {feedback: feedback});
+    var sql = 'SELECT id, title FROM topic';
+    conn.query(sql, function(err, topics, fields){
+      res.render('auth/login', {feedback: feedback, topics: topics});
+    });
   });
 
   route.post('/register', function(req, res){
@@ -79,7 +82,10 @@ module.exports = function(passport){
   });
 
   route.get('/register', function(req, res){
-    res.render('auth/register');
+    var sql = 'SELECT id, title FROM topic';
+    conn.query(sql, function(err, topics, fields){
+      res.render('auth/register', {topics: topics});
+    });
   });
 
   route.get('/logout', function(req, res){

@@ -1,12 +1,14 @@
-h1 Register
-form(action='/auth/register', method='post')
-  p
-    input(type='text', name='username', placeholder='username')
-  p
-    input(type='password', name='password', placeholder='password')
-  p
-    input(type='displayName', name='displayName', placeholder='displayName')
-  p
-    input(type='submit')
-|     go to 
-a(href='/welcome') HOME
+extends ../layout
+block content
+  h1 Register
+  form(action='/auth/register', method='post')
+    p
+      input(type='text', name='username', placeholder='username')
+    p
+      input(type='password', name='password', placeholder='password')
+    p
+      input(type='displayName', name='displayName', placeholder='displayName')
+    p
+      input(type='submit')
+  |     go to
+  a(href='/welcome') HOME
